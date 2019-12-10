@@ -2,21 +2,22 @@ import React from 'react';
 import { Form, } from "semantic-ui-react";
 
 class ItemForm extends React.Component {
-  state = { name: "", description:"", price: 0 , menu_id: this.props.menu_id};
-
+	state = {...this.props.item};
+	updating = this.props.setAdding !== undefined;
   handleChange = (e) => {
 		if(e.target.name === "name")
 			this.setState({ name: e.target.value, });
 		else if(e.target.name === "description")
 			this.setState({ description: e.target.value, });
 		else if(e.target.name === "price")
-			this.setState({ description: e.target.value, });
+			this.setState({ price: e.target.value, });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.addItem(this.state);
-    this.setState({ name: "", description:"", price: 0});
+		this.props.addItem(this.state);
+		if(this.updating) this.props.setAdding(false);
+    this.setState({name:"",description:"",price:""});
   }
 
   render() {
@@ -46,6 +47,9 @@ class ItemForm extends React.Component {
           value={this.state.price}
           onChange={this.handleChange}
         />
+				<Form.Button
+					type = "submit"
+				>{this.updating ? "Update" : "Add"}</Form.Button>
       </Form>
     )
   }

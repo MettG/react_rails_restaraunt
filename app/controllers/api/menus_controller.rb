@@ -1,8 +1,7 @@
-class MenusController < ApplicationController
+class Api::MenusController < ApplicationController
 	before_action :set_menu, only: [:show, :update, :destroy]
 
 	def index
-		puts "I am a poopy bitch"
 		render json: Menu.all	
   end
 
@@ -32,11 +31,10 @@ class MenusController < ApplicationController
 	private
 
 		def set_menu
-			@item = Menu.find(params[:id])
+			@menu = Menu.find(params[:id])
 		end
 
 		def menu_params
-			params.require(:menu).permit(:item)
+			params.require(:menu).permit(:name)
 		end
-
 end
